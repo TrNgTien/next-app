@@ -2,7 +2,7 @@ version: '3'
 
 services:
   vani_next:
-    image: node:16
+    image: node:18-slim
     container_name: vani_next
     working_dir: /vani_next
     ports:
