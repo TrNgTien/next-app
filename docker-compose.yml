@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  vani_next:
+    image: "bitnami/nginx:1.25.1"
+    restart: always
+    ports:
+      - 1189:80
+    container_name: "vani_next"
+    volumes:
+      - ~/next-app/apps/vani_fe/.next/static:/app:ro
+      - ./nginx/conf/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
+    command: ["nginx", "-g", "deamon offl"]
