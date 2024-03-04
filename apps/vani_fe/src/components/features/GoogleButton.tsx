@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import React, { useCallback } from "react";
-import googleIcon from "@/assets/icons/google.svg";
-import Image from "next/image";
+import googleIcon from '@/assets/icons/google.svg';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { useCallback } from 'react';
 
 export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
-  const { title = "", isSignUp } = opts ?? {};
+  const { title = '', isSignUp } = opts ?? {};
   const handleGoogleService = useCallback(() => {
     if (!isSignUp) {
       return;
     }
 
-    console.log("google");
+    console.log('google');
     return;
   }, [isSignUp]);
 
@@ -20,8 +20,7 @@ export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
       <Button
         className="border w-10/12 my-2 mx-auto"
         variant="outline"
-        onClick={handleGoogleService}
-      >
+        onClick={handleGoogleService}>
         <Image
           priority
           src={googleIcon}
@@ -34,4 +33,3 @@ export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
     </div>
   );
 };
-
