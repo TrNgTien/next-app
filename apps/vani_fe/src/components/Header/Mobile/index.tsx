@@ -1,4 +1,3 @@
-import ArrowLeft from '@/assets/icons/arrow-left.svg';
 import { NavigationPath } from '@/common';
 import {
   Button,
@@ -10,35 +9,19 @@ import {
 } from '@/components';
 import { FeedbackDrawer } from '@/components/FeedbackDrawer';
 import { primaryColor } from '@/styles';
-import Image from 'next/image';
+import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 const HeaderMobile = () => {
   const router = useRouter();
-  const [goal, setGoal] = React.useState(350);
 
-  const handleNavigate = useCallback(() => {
-    // router.back();
-  }, []);
-
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)));
-  }
   return (
     <React.Fragment>
       <div className="text-white p-4">
         <FeedbackDrawer
           componentTrigger={
-            <Image
-              priority
-              src={ArrowLeft}
-              className="text-white cursor-pointer"
-              alt="arrow left"
-              onClick={() => {}}
-              height={18}
-              width={18}
-            />
+            <ChevronLeft className={`text-[${primaryColor}]`} />
           }>
           <div className="mx-auto w-full max-w-sm">
             <DrawerHeader className="text-start">
@@ -49,7 +32,7 @@ const HeaderMobile = () => {
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter>
-              <div className={`flex`}>
+              <div className="flex">
                 <DrawerClose asChild>
                   <Button variant="outline">Cancel</Button>
                 </DrawerClose>

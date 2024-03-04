@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import googleIcon from "@/assets/icons/google.svg";
 import Image from "next/image";
 
-const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
+export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
   const { title = "", isSignUp } = opts ?? {};
   const handleGoogleService = useCallback(() => {
     if (!isSignUp) {
@@ -35,4 +35,3 @@ const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
   );
 };
 
-export default GoogleButton;

@@ -1,1 +1,2 @@
-export { default as GoogleButton } from "./GoogleButton";
+export * from './GoogleButton';
+export * from './AnswerCard';
