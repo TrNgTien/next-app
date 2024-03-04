@@ -1,13 +1,19 @@
-version: "3"
+version: '3'
 
 services:
   vani_next:
-    image: "bitnami/nginx:1.25.1"
-    restart: always
+    image: node:16
+    container_name: vani_next
+    working_dir: /vani_next
     ports:
-      - 1189:80
-    container_name: "vani_next"
+      - 1300:3000
     volumes:
-      - ~/next-app/apps/vani_fe/.next/static:/app:ro
-      - ./nginx/conf/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro
-    command: ["nginx", "-g", "deamon offl"]
+      - /root/next-app:/vani_next
+      - /etc/localtime:/etc/localtime:ro
+    command: sh ./start.sh
+    restart: always
+    logging:
+      driver: 'json-file'
+      options:
+        max-file: '5'
+        max-size: '25m'
