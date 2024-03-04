@@ -2,8 +2,8 @@
 
 # Preparing
 echo "Rebuild application..."
-yarn build
+yarn fe:build
 
 # Start project
 echo "Starting server...!"
-yarn start
+yarn fe:start
