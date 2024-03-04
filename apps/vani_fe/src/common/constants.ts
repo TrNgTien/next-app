@@ -6,10 +6,10 @@ export class RestPaths {
 }
 
 export class NavigationPath {
-  static readonly LOGIN = '/';
-  static readonly HOME = '/home';
-  static readonly QUIZZ = '/quizz';
-  static readonly REGISTER = '/register';
+  static readonly INTRO = '/';
+  static readonly SIGN_IN = '/sign-in';
+  static readonly SIGN_UP = '/sign-up';
+  static readonly QUIZ = '/quiz';
 }
 
 export const FontSizePages = {
