@@ -26,6 +26,7 @@
     "docker:run": "docker run -p 3000:3000 -d lb",
     "dev": "NODE_ENV=development RUN_MODE=startup DEBUG=true ts-node -r dotenv-flow/config -r source-map-support/register .",
     "fe": "yarn workspace vani_fe dev",
+    "fe:start": "yarn workspace vani_fe start",
     "fe:build": "yarn workspace vani_fe build",
     "server:local": "NODE_ENV=local yarn workspace vani_be start",
     "be": "yarn workspace vis_be start",
