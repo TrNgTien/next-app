@@ -7,11 +7,7 @@ export function FeedbackDrawer(props: {
   componentTrigger: React.ReactNode;
 }) {
   const { componentTrigger, children } = props ?? {};
-  const [goal, setGoal] = React.useState(350);
 
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)));
-  }
 
   return (
     <Drawer>
