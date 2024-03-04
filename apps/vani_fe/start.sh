@@ -1,6 +1,10 @@
 #!/bin/sh
 
 # Preparing
+echo "Install packages"
+
+yarn install
+
 echo "Rebuild application..."
 yarn fe:build
 
