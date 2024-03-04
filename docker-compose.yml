@@ -10,7 +10,7 @@ services:
     volumes:
       - /root/next-app:/vani_next
       - /etc/localtime:/etc/localtime:ro
-    command: sh ./start.sh
+    command: sh ./apps/vani_fe/start.sh
     restart: always
     logging:
       driver: 'json-file'
