@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  vani_db:
+    image: 'bitnami/postgresql:16'
+    container_name: vani_db
+    ports:
+      - ${POSTGRES_PORT_LISTEN}:${POSTGRES_PORT}
+    restart: always
+    volumes:
+      - ${POSTGRES_VOLUMES}:/bitnami/postgresql
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+
