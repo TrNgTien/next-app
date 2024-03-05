@@ -1,4 +1,5 @@
 import { BaseRepository } from '@/base';
+import tables from '@/common/tables';
 import {
   compareHash,
   decrypt,
@@ -6,7 +7,7 @@ import {
   encryptHash,
   generateToken,
 } from '@/helpers';
-import { dayjs, getError } from '@/utils';
+import { dayjs, getError, insertBuilder } from '@/utils';
 import { Request, Response } from 'express';
 
 class AuthRepository extends BaseRepository {
@@ -63,8 +64,8 @@ class AuthRepository extends BaseRepository {
   async signUp(req: Request, _res: Response) {
     const { phone, password, firstName, lastName } = req.body ?? {};
 
-    // const userTbl = tables.User.tableName.quotationMarks;
-    // const userCols = tables.User.columns;
+    const userTbl = tables.User.tableName.quotationMarks;
+    const userCols = tables.User.columns;
     //
     const hashedPass = await encryptHash(password);
     const decryptPhone = decrypt(phone);
@@ -75,18 +76,18 @@ class AuthRepository extends BaseRepository {
                                               `);
     console.log('isExistedPhone', isExistedPhone);
 
-    // const q = insertBuilder()
-    //   .into(userTbl)
-    //   .set(userCols.createdAt, dayjs().toISOString())
-    //   .set(userCols.modifiedAt, dayjs().toISOString())
-    //   .set(userCols.password, hashedPass)
-    //   .set(userCols.username, username)
-    //   .set(userCols.password, hashedPass)
-    //   .set(userCols.firstName, firstName)
-    //   .set(userCols.lastName, lastName)
-    //   .toString();
-    //
-    // return await this.execute(q);
+    const q = insertBuilder()
+      .into(userTbl)
+      .set(userCols.createdAt, dayjs().toISOString())
+      .set(userCols.modifiedAt, dayjs().toISOString())
+      // .set(userCols.password, hashedPass)
+      // .set(userCols.username, username)
+      // .set(userCols.password, hashedPass)
+      // .set(userCols.firstName, firstName)
+      // .set(userCols.lastName, lastName)
+      .toString();
+
+    return await this.execute(q);
   }
 }
 
