@@ -12,6 +12,3 @@ yarn fe:build
 echo "Starting server...!"
 yarn fe:start
 
-
-echo "Restart deploy"
-docker restart vani_next 
