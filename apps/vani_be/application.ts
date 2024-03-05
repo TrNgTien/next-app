@@ -1,22 +1,35 @@
-import { environment } from "@/helpers";
-import cors from "cors";
-import express, { Express, Request, Response } from "express";
-import MainRoutes from "./src/routes";
+import { keys } from '@/config';
+import { environment } from '@/helpers';
+import cookieSession from 'cookie-session';
+import cors from 'cors';
+import express, { Express, Request, Response } from 'express';
+import passport from 'passport';
+import MainRoutes from './src/routes';
 
 const mainApplication = async () => {
   const app: Express = express();
-  const PORT = environment.get("APP_ENV_PORT") || 8080;
+  const PORT = environment.get('APP_ENV_PORT') || 8080;
 
   //-----------------------------------------------
   app.use(express.json());
   app.use(cors());
   app.use(express.urlencoded({ extended: true }));
 
+  app.use(
+    cookieSession({
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      keys: [keys.cookieKey],
+    }),
+  );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   //-----------------------------------------------
-  app.get("/up", (_req: Request, res: Response) => {
+  app.get('/up', (_req: Request, res: Response) => {
     const healthcheck = {
       uptime: `${(process.uptime() / 60).toLocaleString()}m`,
-      message: "OK",
+      message: 'OK',
     };
     try {
       res.send(healthcheck);

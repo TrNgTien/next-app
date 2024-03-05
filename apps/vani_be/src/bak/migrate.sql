@@ -2,8 +2,7 @@ CREATE TABLE "User"(
     id SERIAL NOT NULL,
     created_at timestamp with time zone,
     modified_at timestamp with time zone,
-    status text DEFAULT '000_UNKNOWN'::text,
-    user_type text DEFAULT 'SYSTEM'::text,
+    status text DEFAULT '100_ACTIVATED'::text,
     activated_at timestamp with time zone,
     last_login_at timestamp with time zone,
     phone text,
@@ -42,7 +41,7 @@ CREATE TABLE "Question"(
     modified_at timestamp with time zone,
     hint text,
     content text,
-    isMultiple boolean,
+    is_multiple boolean,
     PRIMARY KEY(id)
 );
 
@@ -50,6 +49,7 @@ CREATE TABLE "Answer"(
     id SERIAL NOT NULL,
     created_at timestamp with time zone,
     modified_at timestamp with time zone,
-    isCorrect boolean,
+    is_correct boolean,
+    question_id integer,
     PRIMARY KEY(id)
 );

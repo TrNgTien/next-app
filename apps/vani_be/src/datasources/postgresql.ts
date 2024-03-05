@@ -1,14 +1,14 @@
 import { environment } from '@/helpers';
 import { getError } from '@/utils';
-import { Pool, PoolConfig, QueryArrayResult } from 'pg';
+import { Pool, PoolConfig, QueryResult } from 'pg';
 
 class DataSource {
   private dbConfig: PoolConfig = {
-    user: environment.get('APP_ENV_POSTGRES_USERNAME'),
-    password: environment.get('APP_ENV_POSTGRES_PASSWORD'),
-    host: environment.get('APP_ENV_POSTGRES_HOST'),
-    database: environment.get('APP_ENV_POSTGRES_DATABASE'),
-    port: +environment.get('APP_ENV_POSTGRES_PORT_LISTEN'),
+    user: environment.get('POSTGRES_USERNAME'),
+    password: environment.get('POSTGRES_PASSWORD'),
+    host: environment.get('POSTGRES_HOST'),
+    database: environment.get('POSTGRES_DATABASE'),
+    port: +environment.get('POSTGRES_PORT_LISTEN'),
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
   };
@@ -27,12 +27,24 @@ class DataSource {
     return this.instance;
   }
 
-  execute(
-    queryString: string,
-    cb: (err: Error, result: QueryArrayResult<any[]>) => void,
-  ) {
+  async execute(queryString: string, values?: unknown[]) {
     try {
-      return this.pool.query(queryString, cb);
+      return new Promise((resolve, reject) => {
+        const handler = (err: Error, result: QueryResult<any>) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          if (!result?.rows.length) {
+            return;
+          }
+
+          resolve(result.rows);
+        };
+
+        this.pool.query(queryString, values, handler);
+      });
     } catch (e) {
       throw getError({
         statusCode: 500,

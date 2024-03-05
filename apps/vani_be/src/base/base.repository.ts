@@ -24,15 +24,15 @@ export class BaseRepository implements IBaseRepository {
     this.table = opts.table;
   }
 
-  async execute(queryString: string, values?: unknown[]) {
-    return await datasource.execute(queryString, values);
+  async execute(queryString: string) {
+    return await datasource.execute(queryString);
   }
 
   async closeConnection() {
     return await datasource.closeConnection();
   }
 
-  async find(opts: IRepositoryProps) {
+  find(opts: IRepositoryProps) {
     const { page, limit = Limit.L50, fields } = opts;
 
     const q = queryBuilder()
@@ -41,10 +41,10 @@ export class BaseRepository implements IBaseRepository {
       .limit(limit)
       .offset(page * limit);
 
-    return await this.execute(q.toString());
+    return this.execute(q.toString());
   }
 
-  async findOne(opts: IRepositoryProps) {
+  findOne(opts: IRepositoryProps) {
     const { fields, where } = opts;
 
     const q = queryBuilder().fields(fields).from(this.table);
@@ -53,7 +53,7 @@ export class BaseRepository implements IBaseRepository {
       q.where(`${keyField} = ?`, value);
     });
 
-    return await this.execute(q.toString());
+    return this.execute(q.toString());
   }
 
   async create() {}

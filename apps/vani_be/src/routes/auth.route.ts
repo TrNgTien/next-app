@@ -1,8 +1,8 @@
-import { Endpoints } from '@/constants';
+import { Endpoints } from '@/common';
 import { authServiceInstance } from '@/services';
-import { Express } from 'express';
+const router = require('express').Router();
 
-export default (app: Express) => {
-  app.use(`${Endpoints.SIGN_IN}`, authServiceInstance.signIn);
-  app.use(`${Endpoints.SIGN_UP}`, authServiceInstance.signUp);
-};
+router.post(`${Endpoints.SIGN_IN}`, authServiceInstance.signIn);
+router.post(`${Endpoints.SIGN_UP}`, authServiceInstance.signUp);
+
+export default router;

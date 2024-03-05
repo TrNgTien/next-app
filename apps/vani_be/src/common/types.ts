@@ -14,3 +14,10 @@ export interface IBaseResponse {
   createdAt: string;
   modifiedAt: string;
 }
+
+export interface IUser extends IBaseResponse {
+  status: string;
+  activateAt: string;
+  lastLoginAt: string;
+  phone: string;
+}

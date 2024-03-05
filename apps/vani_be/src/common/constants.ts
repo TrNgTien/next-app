@@ -7,11 +7,11 @@ export class App {
 
 export class Endpoints {
   static readonly AUTH = 'auth';
-  static readonly SIGN_IN = `${this.AUTH}/sign_in`;
-  static readonly SIGN_UP = `${this.AUTH}/sign_up`;
+  static readonly SIGN_IN = `/sign-in`;
+  static readonly SIGN_UP = `/sign-up`;
   
   static readonly USER = 'users';
-  static readonly POST = 'posts';
+  static readonly QUESTIONS = 'questions';
 }
 
 export class Limit{
