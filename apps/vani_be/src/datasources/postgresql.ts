@@ -1,6 +1,6 @@
 import { environment } from '@/helpers';
 import { getError } from '@/utils';
-import { Pool, PoolConfig } from 'pg';
+import { Pool, PoolConfig, QueryArrayResult } from 'pg';
 
 class DataSource {
   private dbConfig: PoolConfig = {
@@ -27,11 +27,12 @@ class DataSource {
     return this.instance;
   }
 
-  async execute(queryString: string, values?: unknown[]) {
+  execute(
+    queryString: string,
+    cb: (err: Error, result: QueryArrayResult<any[]>) => void,
+  ) {
     try {
-      const rs = await this.pool.query(queryString, values);
-
-      return rs?.rows;
+      return this.pool.query(queryString, cb);
     } catch (e) {
       throw getError({
         statusCode: 500,
