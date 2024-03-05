@@ -1,5 +1,5 @@
 import { BaseRepository } from "@/base";
-import tables from "@/constants/tables";
+import tables from "@/common/tables";
 import { compareHash, encryptHash, generateToken } from "@/helpers";
 import { dayjs, getError, insertBuilder, queryBuilder } from "@/utils";
 import { Request, Response } from "express";
