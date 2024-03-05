@@ -1,7 +1,21 @@
-import { Limit } from "@/constants";
-import { datasource } from "@/datasources";
-import { queryBuilder } from "@/utils";
-import { IBaseRepository, IRepositoryProps } from "./types";
+import { Limit } from '@/common';
+import { datasource } from '@/datasources';
+import { queryBuilder } from '@/utils';
+
+export interface IRepositoryProps {
+  page?: number;
+  limit?: number;
+  fields: string[];
+  where?: Object;
+}
+
+export interface IBaseRepository {
+  find(opts: IRepositoryProps): void;
+  findOne(opts: IRepositoryProps): void;
+  create(): void;
+  createAll(e: any): void;
+  updateById(id: number, data: any): Promise<void>;
+}
 
 export class BaseRepository implements IBaseRepository {
   private table: string;
@@ -45,7 +59,7 @@ export class BaseRepository implements IBaseRepository {
   async create() {}
 
   createAll() {
-    console.log("[createAll] props", this.table);
+    console.log('[createAll] props', this.table);
     return;
   }
 

@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   vani_next:
@@ -13,7 +13,23 @@ services:
     command: sh ./apps/vani_fe/start.sh
     restart: always
     logging:
-      driver: 'json-file'
+      driver: "json-file"
       options:
-        max-file: '5'
-        max-size: '25m'
+        max-file: "5"
+        max-size: "25m"
+  vani_express:
+    image: node:18-slim
+    container_name: vani_express
+    working_dir: /vani_express
+    ports:
+      - 8080:8080
+    volumes:
+      - /root/next-app:/vani_next
+      - /etc/localtime:/etc/localtime:ro
+    command: ["npm", "run", "start"]
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "25m"

@@ -1,4 +1,4 @@
-import { IApplicationError } from '@/constants';
+import { IApplicationError } from '@/common';
 import { Response } from 'express';
 
 class ApplicationError extends Error {
