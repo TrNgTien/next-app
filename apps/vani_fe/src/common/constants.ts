@@ -1,7 +1,7 @@
 export const MAX_WIDTH = 1200;
 
 export class RestPaths {
-  static readonly BASE_URL = 'http://34.125.153.111/:8080/v1/api';
+  static readonly BASE_URL = 'http://localhost:8080/v1/api';
   static readonly QUIZ = `${this.BASE_URL}/questions`;
 }
 

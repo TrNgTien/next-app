@@ -2,7 +2,7 @@ echo "Install Packages"
 
 cd "$(dirname "$0")"
 
-npm install
+yarn install
 
 echo "Run Node"
 

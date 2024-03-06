@@ -1,25 +1,11 @@
-# Use the official Node.js image as the base
-FROM node:18-slim
+FROM node:18-alpine
 
-# Set the working directory in the container
 WORKDIR /app
 
-COPY package.json ./
+COPY package*.json ./
 
-COPY yarn.lock ./
+RUN npm ci
 
-# Install project dependencies
-RUN npm install -g yarn
+COPY . .
 
-RUN yarn install
-
-RUN yarn build
-
-COPY ./dist .
-
-COPY .env .env
-
-EXPOSE 8080
-
-# Start the Node.js application
-CMD ["node", "application.js"]
+CMD ["node", "index.js"]

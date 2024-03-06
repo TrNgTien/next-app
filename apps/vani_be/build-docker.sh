@@ -2,7 +2,7 @@
 
 echo "Start build docker....!"
 
-docker build -t vani_be .
+docker build --platform linux/arm64 -t tien2712/vani_be .
 
 echo "FINISH!!!"
 
