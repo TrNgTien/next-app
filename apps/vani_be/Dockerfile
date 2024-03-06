@@ -13,6 +13,8 @@ RUN npm install -g yarn
 
 RUN yarn install
 
+yarn build
+
 COPY ./dist .
 
 COPY .env .env

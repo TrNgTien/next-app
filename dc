@@ -1,1 +1,1 @@
-docker compose --env-file ./.env -f docker-compose.service.yml $@
+docker compose --env-file ./.env -f docker-compose.service.yml -f docker-compose.yml $@

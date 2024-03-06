@@ -58,8 +58,10 @@ export const AnswerCard = (props: TProps) => {
 
   const handleMultiple = useCallback(async () => {
     const answerQuizMultiple = await handleMultipleAnswers({ id });
+
     setResultMultiple(answerQuizMultiple.length > 1);
     setAnswerMultiResult(answerQuizMultiple);
+
   }, [handleMultipleAnswers, id]);
 
   console.log(resultMultiple, answerMultiResult);

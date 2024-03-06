@@ -8,7 +8,7 @@ services:
     ports:
       - 1300:3000
     volumes:
-      - /root/next-app:/vani_next
+      - ./apps/vani_fe:/vani_next
       - /etc/localtime:/etc/localtime:ro
     command: sh ./apps/vani_fe/start.sh
     restart: always
@@ -24,9 +24,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - /root/next-app:/vani_next
+      - ./apps/vani_be:/vani_express
       - /etc/localtime:/etc/localtime:ro
-    command: ["npm", "run", "start"]
+    command: sh start.sh
     restart: always
     logging:
       driver: "json-file"
