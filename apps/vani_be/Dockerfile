@@ -13,7 +13,7 @@ RUN npm install -g yarn
 
 RUN yarn install
 
-yarn build
+RUN yarn build
 
 COPY ./dist .
 
