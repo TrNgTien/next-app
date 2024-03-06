@@ -5,15 +5,17 @@ import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import passport from 'passport';
 import MainRoutes from './src/routes';
+var bodyParser = require('body-parser');
 
 const mainApplication = async () => {
   const app: Express = express();
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+
   const PORT = environment.get('APP_ENV_PORT') || 8080;
 
-  //-----------------------------------------------
-  app.use(express.json());
+  //-------------questionServiceInstance.answerQuestion----------------------------------
   app.use(cors());
-  app.use(express.urlencoded({ extended: true }));
 
   app.use(
     cookieSession({

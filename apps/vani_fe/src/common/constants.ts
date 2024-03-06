@@ -2,7 +2,7 @@ export const MAX_WIDTH = 1200;
 
 export class RestPaths {
   static readonly BASE_URL = 'http://localhost:8080/v1/api';
-  static readonly POST = `${this.BASE_URL}/posts`;
+  static readonly QUIZ = `${this.BASE_URL}/questions`;
 }
 
 export class NavigationPath {
@@ -10,6 +10,7 @@ export class NavigationPath {
   static readonly SIGN_IN = '/sign-in';
   static readonly SIGN_UP = '/sign-up';
   static readonly QUIZ = '/quiz';
+  static readonly COMPLETE_QUIZ = '/complete-quiz';
 }
 
 export const FontSizePages = {

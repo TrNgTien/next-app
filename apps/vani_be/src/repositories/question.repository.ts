@@ -40,8 +40,7 @@ export class QuestionRepository extends BaseRepository {
       JSONB_AGG(
         JSONB_BUILD_OBJECT(
           'id', a.id,
-          'content', a.content ,
-          'isCorrect', a.is_correct
+          'content', a.content
         )
       ) as "answers"
       FROM "Question" q LEFT JOIN "Answer" a ON a.question_id = q.id
@@ -53,6 +52,22 @@ export class QuestionRepository extends BaseRepository {
       return await this.execute(q);
     } catch (e) {
       console.log('[getQuestionById]', e);
+    }
+  }
+
+  async answerQuestion(ids: number[]) {
+    try {
+      const q = `
+      SELECT
+      a.id,
+      is_correct "isCorrect", 
+      q.is_multiple "isMultiple"
+      FROM "Answer" a LEFT join "Question" q on a.question_id =  q.id
+      WHERE a.id IN (${ids.join(',')}) and a.is_correct = true
+      `;
+      return await this.execute(q);
+    } catch (e) {
+      console.log('[answerQuestion]', e);
     }
   }
 }

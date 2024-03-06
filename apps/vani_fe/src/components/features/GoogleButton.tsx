@@ -1,18 +1,22 @@
 import googleIcon from '@/assets/icons/google.svg';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { useCallback } from 'react';
 
-export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
-  const { title = '', isSignUp } = opts ?? {};
-  const handleGoogleService = useCallback(() => {
-    if (!isSignUp) {
-      return;
-    }
-
-    console.log('google');
-    return;
-  }, [isSignUp]);
+export const GoogleButton = (opts: {
+  title: string;
+  isSignUp?: boolean;
+  onClick: any;
+  disabled?: boolean;
+}) => {
+  const { title = '', disabled, onClick } = opts ?? {};
+  // const handleGoogleService = useCallback(() => {
+  //   if (!isSignUp) {
+  //     return;
+  //   }
+  //
+  //   console.log('google');
+  //   return;
+  // }, [isSignUp]);
 
   return (
     <div className="w-full flex-col flex">
@@ -20,7 +24,8 @@ export const GoogleButton = (opts: { title: string; isSignUp?: boolean }) => {
       <Button
         className="border w-10/12 my-2 mx-auto"
         variant="outline"
-        onClick={handleGoogleService}>
+        disabled={disabled}
+        onClick={onClick}>
         <Image
           priority
           src={googleIcon}

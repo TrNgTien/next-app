@@ -1,10 +1,11 @@
+import { RestPaths } from '@/common';
 import { AnswerCard } from '@/components';
 import NavigationLayout from '@/components/layout/Mobile/NavigationLayout';
+import { networkHelperInstance } from '@/helpers';
 import { cn } from '@/lib/utils';
-import questions from '@/mocks/data.json';
 import { borderPrimaryColor, textPrimaryColor } from '@/styles';
-import { useParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import Hint from './components/Hint';
 
 export interface IAnwser {
@@ -16,51 +17,90 @@ export interface IAnwser {
 
 export interface IQuizData {
   id: number;
-  question: string;
+  content: string;
   answers: IAnwser[];
   hint: string;
   isMultiple?: boolean;
 }
 
+let ids: number[] = [];
 const Quiz = () => {
   const params = useParams();
   const { id = 1 } = params ?? {};
   const currentQuiz: number = +id;
-
+  const router = useRouter();
   const [quizData, setQuizData] = useState<IQuizData>();
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
-  const [correctList, setCorrectList] = useState<number[]>([]);
-  const progress: number = useMemo(
-    () => (currentQuiz / questions.length) * 100,
+  const [progress, setProgress] = useState<number>(0);
+
+  const answerQuiz = useCallback(
+    async (body: { ids: number[] }) => {
+      const rs = await networkHelperInstance.send({
+        method: 'POST',
+        url: `${RestPaths.QUIZ}/${currentQuiz}`,
+        body,
+      });
+
+      return rs;
+    },
     [currentQuiz],
   );
 
   const handleMultipleAnswers = useCallback(
-    ({ id, isCorrect }: { id: number; isCorrect: boolean }) => {
-      if (isCorrect) {
-        setCorrectList((prev) => [...prev, id]);
-      }
-
-      if (correctList.length === 2) {
-        setSelectedAnswers([]);
-        setCorrectList([]);
-        alert('you Win');
+    async ({ id }: { id: number }) => {
+      if (ids.includes(id)) {
         return;
       }
 
-      if (selectedAnswers.length > 2) {
-        setSelectedAnswers([]);
-        return;
-      }
+      ids.push(id);
 
       setSelectedAnswers((prev) => [...prev, id]);
+
+      if (ids.length > 1) {
+        const rs = await answerQuiz({ ids: ids });
+
+        if (rs.length > 1) {
+          ids = [];
+          setSelectedAnswers([]);
+          return rs;
+        }
+
+        return [];
+      }
+      return []
     },
-    [selectedAnswers, correctList],
+    [answerQuiz],
   );
 
-  useEffect(() => {
-    setQuizData(questions[`${currentQuiz - 1}`]);
+  const getQuestion = useCallback(async () => {
+    try {
+      const res = (await networkHelperInstance.send({
+        method: 'GET',
+        url: `${RestPaths.QUIZ}/${currentQuiz}`,
+      })) as IQuizData[];
+      setQuizData(res[0]);
+    } catch (e) {
+      console.error('[getQuestion] ', e);
+    }
   }, [currentQuiz]);
+
+  const getCountQuestions = useCallback(async () => {
+    try {
+      const count = await networkHelperInstance.send({
+        method: 'GET',
+        url: `${RestPaths.QUIZ}/count`,
+      });
+
+      setProgress((currentQuiz / count) * 100);
+    } catch (e) {
+      console.error('[getCountQuestions] ', e);
+    }
+  }, [currentQuiz]);
+
+  useEffect(() => {
+    getQuestion();
+    getCountQuestions();
+  }, [getQuestion, getCountQuestions]);
 
   return !quizData ? (
     <h1>Loading....</h1>
@@ -74,7 +114,7 @@ const Quiz = () => {
       </div>
       <div className="p-6">
         <h1 className={cn(textPrimaryColor, 'font-bold')}>Q{id}</h1>
-        <p className="font-semibold mt-2">{quizData.question}</p>
+        <p className="font-semibold mt-2">{quizData.content}</p>
         {quizData.answers.map((item: IAnwser) => {
           const { id } = item ?? {};
           const cardData = {

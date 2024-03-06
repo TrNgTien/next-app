@@ -1,20 +1,24 @@
 interface IRequestOptions {
   url: string;
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
   params?: object;
   body?: object;
   configs?: object;
 }
 
-const HTTP = "http";
-const HTTPS = "https";
+const HTTP = 'http';
+const HTTPS = 'https';
+
+const DEFAULT_HEADER = {
+  'Content-Type': 'application/json',
+};
 
 export const stringify = (params: Record<string | symbol, any>) => {
   const normalizedParams: Record<string | symbol, any> = {};
   for (const key in params) {
     switch (typeof params[key]) {
-      case "number":
-      case "string": {
+      case 'number':
+      case 'string': {
         normalizedParams[key] = params[key];
         break;
       }
@@ -40,19 +44,18 @@ export class NetworkHelper {
   }
 
   getProtocol(url: string) {
-    return url.startsWith("http:") ? HTTP : HTTPS;
+    return url.startsWith('http:') ? HTTP : HTTPS;
   }
 
   // -------------------------------------------------------------
   // SEND REQUEST
   // -------------------------------------------------------------
-  async send(opts: IRequestOptions, logger?: any) {
-    const t = new Date().getTime();
-
-    const { url, method = "GET", params, body, configs } = opts;
+  async send(opts: IRequestOptions) {
+    const { url, method = 'GET', params, body, configs } = opts;
     const props = {
       method,
       body: body instanceof FormData ? body : JSON.stringify(body),
+      headers: DEFAULT_HEADER,
       ...configs,
     };
 
@@ -61,11 +64,9 @@ export class NetworkHelper {
       requestUrl = `${url}?${stringify(params)}`;
     }
 
-    logger?.info("[send] URL: %s | Props: %o", requestUrl, props);
     const response = await fetch(requestUrl, props);
 
-    logger?.info(`[network]][send] Took: %s(ms)`, new Date().getTime() - t);
-    return response;
+    return response.json();
   }
 
   // -------------------------------------------------------------
@@ -76,7 +77,7 @@ export class NetworkHelper {
     const response = await this.send({
       ...rest,
       url,
-      method: "GET",
+      method: 'GET',
       params,
       configs,
     });
@@ -87,15 +88,25 @@ export class NetworkHelper {
   // POST REQUEST
   // -------------------------------------------------------------
   async post(opts: IRequestOptions) {
-    const { url, body, configs, ...rest } = opts;
-    const response = await this.send({
+    const { url, body, configs, params, ...rest } = opts;
+
+    const props = {
       ...rest,
       url,
-      method: "POST",
-      body,
+      method: 'POST',
+      body: JSON.stringify(body),
       configs,
-    });
-    return response;
+      headers: DEFAULT_HEADER,
+    };
+
+    let requestUrl = url;
+    if (params) {
+      requestUrl = `${url}?${stringify(params)}`;
+    }
+
+    const response = await fetch(requestUrl, props);
+
+    return response.json();
   }
 }
 

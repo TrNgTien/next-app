@@ -9,17 +9,17 @@ export class Endpoints {
   static readonly AUTH = 'auth';
   static readonly SIGN_IN = `/sign-in`;
   static readonly SIGN_UP = `/sign-up`;
-  
+  static readonly SIGN_IN_GOOGLE = `${this.SIGN_IN}/google`;
+  static readonly SIGN_UP_GOOGLE = `${this.SIGN_UP}/google`;
+
   static readonly USER = 'users';
   static readonly QUESTIONS = 'questions';
 }
 
-export class Limit{
+export class Limit {
   static readonly L50 = 50;
   static readonly L100 = 100;
   static readonly L500 = 500;
   static readonly L1000 = 1_000;
   static readonly L5000 = 5_000;
 }
-
-

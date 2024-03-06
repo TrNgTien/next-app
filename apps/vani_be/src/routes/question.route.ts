@@ -5,4 +5,6 @@ router.get(`/count`, questionServiceInstance.getCount);
 
 router.get(`/:id`, questionServiceInstance.getQuestionById);
 
+router.post(`/:id`, questionServiceInstance.answerQuestion);
+
 export default router;
